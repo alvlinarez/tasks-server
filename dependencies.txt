@@ -1,0 +1,2 @@
+npm i -E -D dotenv nodemon prettier
+npm i -E -S cors express express-validator helmet jsonwebtoken mongoose morgan passport passport-facebook passport-google-oauth20 passport-http passport-jwt
