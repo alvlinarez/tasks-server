@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     return res.status(401).json({error: 'No token. Unauthorized'});
   }
   try {
-    const { id, name, email } = jwt.verify(token, config.jwtSecret);
+    const { sub: id, name, email } = jwt.verify(token, config.jwtSecret);
     req.user = {id, name, email};
     next();
   } catch (e) {
