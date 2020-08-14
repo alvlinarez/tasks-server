@@ -28,9 +28,9 @@ app.use(cors());
 app.use(cookieParser());
 
 // routes
-app.use('/api', authRoutes);
-app.use('/api', taskRoutes);
-app.use('/api', projectRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/task', taskRoutes);
+app.use('/api/project', projectRoutes);
 
 // 404 middleware
 app.use(notFoundHandler);

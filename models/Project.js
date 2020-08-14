@@ -14,7 +14,8 @@ const projectSchema = mongoose.Schema(
     tasks: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Task'
+        ref: 'Task',
+        unique: true
       }
     ]
   },
@@ -39,7 +40,8 @@ const autoPopulate = function (next) {
 projectSchema
   .pre('find', autoPopulate)
   .pre('findOne', autoPopulate)
-  .pre('findOneAndUpdate', autoPopulate);
+  .pre('findOneAndUpdate', autoPopulate)
+  .pre('update', autoPopulate);
 
 projectSchema.set('toJSON', {
   virtuals: true,

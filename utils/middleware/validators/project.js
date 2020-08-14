@@ -1,13 +1,11 @@
 const { check } = require('express-validator');
 
-exports.createProject = [
-  check('name').not().isEmpty().withMessage('Name is required.'),
-  check('user').not().isEmpty().withMessage('User is required.'),
-  check('tasks')
+exports.createAndUpdateProjectValidator = [
+  check('name')
     .not()
     .isEmpty()
-    .withMessage('Tasks are required.')
-    .not()
-    .isArray()
-    .withMessage('Tasks must be array')
+    .withMessage('Name is required.')
+    .isString()
+    .withMessage('Name must be string'),
+  check('tasks').isArray().withMessage('Tasks must be array')
 ];

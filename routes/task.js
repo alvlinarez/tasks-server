@@ -11,23 +11,23 @@ const {
 } = require('../utils/middleware/validators/task');
 
 router.post(
-  '/task',
+  '/',
   auth,
   createTaskValidator,
   runValidation,
   taskController.createTask
 );
 
-router.get('/task/:taskId', auth, taskController.getTask);
+router.get('/:taskId', auth, taskController.getTask);
 
 router.put(
-  '/task/:taskId',
+  '/:taskId',
   auth,
   updateTaskValidator,
   runValidation,
   taskController.updateTask
 );
 
-router.delete('/task/:taskId', auth, taskController.deleteTask);
+router.delete('/:taskId', auth, taskController.deleteTask);
 
 module.exports = router;

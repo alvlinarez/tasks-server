@@ -5,15 +5,28 @@ const auth = require('../utils/middleware/auth');
 
 // Validators
 const { runValidation } = require('../utils/middleware/validators');
-const { userSignInValidator, userSignUpValidator } = require('../utils/middleware/validators/auth');
+const {
+  userSignInValidator,
+  userSignUpValidator
+} = require('../utils/middleware/validators/auth');
 
 // Sign in route
-router.post('/auth/signin', userSignInValidator, runValidation, authController.signIn);
+router.post(
+  '/signin',
+  userSignInValidator,
+  runValidation,
+  authController.signIn
+);
 
 // Sign up route
-router.post('/auth/signup', userSignUpValidator, runValidation, authController.signUp);
+router.post(
+  '/signup',
+  userSignUpValidator,
+  runValidation,
+  authController.signUp
+);
 
 // Get authenticated user
-router.get('/auth', auth, authController.authenticatedUser);
+router.get('/', auth, authController.authenticatedUser);
 
 module.exports = router;
