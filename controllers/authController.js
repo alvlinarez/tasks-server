@@ -78,20 +78,28 @@ exports.signUp = async (req, res) => {
 };
 
 exports.authenticatedUser = async (req, res) => {
-  try {
-    let user = await User.findById(req.user.id);
-    if (!user) {
-      return res.status(401).json({
-        error: 'User not found.'
-      });
-    }
-    user = user.toJSON();
-    res.status(200).json({
-      user
-    });
-  } catch (e) {
-    return res.status(500).json({
-      error: 'Internal server error.'
+  const token = req.cookies.token || req.body.token;
+  if (!token) {
+    return res.status(200).json({});
+  }
+  const { sub: id, name, email } = jwt.verify(token, config.jwtSecret);
+  if (!id || !name || !email) {
+    return res.status(401).json({
+      error: 'Invalid token.'
     });
   }
+  res.status(200).json({
+    user: {
+      id,
+      name,
+      email
+    }
+  });
+};
+
+exports.signOut = (req, res) => {
+  res.clearCookie('token');
+  return res.status(200).json({
+    message: 'Signed out successfully'
+  });
 };

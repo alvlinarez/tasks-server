@@ -26,7 +26,13 @@ router.post(
   authController.signUp
 );
 
+// Sign out route
+router.post('/signout', auth, authController.signOut);
+
 // Get authenticated user
-router.get('/', auth, authController.authenticatedUser);
+// Cookie in req.cookie
+router.get('/', authController.authenticatedUser);
+// Cookie in req.body
+router.post('/', authController.authenticatedUser);
 
 module.exports = router;
