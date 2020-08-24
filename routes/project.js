@@ -6,7 +6,8 @@ const projectController = require('../controllers/projectController');
 // Validators
 const { runValidation } = require('../utils/middleware/validators');
 const {
-  createAndUpdateProjectValidator
+  createAndUpdateProjectValidator,
+  addAndRemoveTaskProjectValidator
 } = require('../utils/middleware/validators/project');
 
 router.post(
@@ -18,6 +19,22 @@ router.post(
 );
 
 router.get('/', auth, projectController.getProjects);
+
+router.put(
+  '/:projectId/addTask',
+  auth,
+  addAndRemoveTaskProjectValidator,
+  runValidation,
+  projectController.addTaskToProject
+);
+
+router.put(
+  '/:projectId/removeTask',
+  auth,
+  addAndRemoveTaskProjectValidator,
+  runValidation,
+  projectController.removeTaskFromProject
+);
 
 router.put(
   '/:projectId',

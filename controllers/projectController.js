@@ -1,7 +1,7 @@
 const Project = require('../models/Project');
 
 exports.createProject = async (req, res) => {
-  const { tasks, name } = req.body;
+  const { name } = req.body;
   const { user } = req;
   try {
     let project = await Project.findOne({ name });
@@ -12,7 +12,7 @@ exports.createProject = async (req, res) => {
     }
     project = new Project({
       user: user.id,
-      tasks,
+      tasks: [],
       name
     });
     project = await project.save();
@@ -30,6 +30,62 @@ exports.getProjects = async (req, res) => {
     // Find projects by user
     const projects = await Project.find({ user: id });
     return res.status(200).json({ projects });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.addTaskToProject = async (req, res) => {
+  const userId = req.user.id;
+  const { taskId } = req.body;
+  const { projectId } = req.params;
+  if (!taskId) {
+    return res.status(401).json({ error: 'TaskId is required.' });
+  }
+  if (!projectId) {
+    return res.status(401).json({ error: 'ProjectId is required.' });
+  }
+  try {
+    const project = await Project.findOneAndUpdate(
+      { user: userId, _id: projectId },
+      { $addToSet: { tasks: taskId } },
+      { new: true }
+    );
+    if (!project) {
+      return res.status(401).json({
+        error: `Project not found.`
+      });
+    }
+    return res.status(200).json({ project });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.removeTaskFromProject = async (req, res) => {
+  const userId = req.user.id;
+  const { taskId } = req.body;
+  const { projectId } = req.params;
+  if (!taskId) {
+    return res.status(401).json({ error: 'TaskId is required.' });
+  }
+  if (!projectId) {
+    return res.status(401).json({ error: 'ProjectId is required.' });
+  }
+  try {
+    const project = await Project.findOneAndUpdate(
+      { user: userId, _id: projectId },
+      { $pull: { tasks: taskId } },
+      { new: true }
+    );
+    if (!project) {
+      return res.status(401).json({
+        error: `Project not found.`
+      });
+    }
+    return res.status(200).json({ project });
   } catch (e) {
     console.log(e);
     return res.status(500).json({ error: 'Internal server error' });
