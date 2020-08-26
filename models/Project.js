@@ -14,8 +14,7 @@ const projectSchema = mongoose.Schema(
     tasks: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Task',
-        unique: true
+        ref: 'Task'
       }
     ]
   },

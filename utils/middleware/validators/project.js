@@ -7,10 +7,19 @@ exports.createAndUpdateProjectValidator = [
     .withMessage('Name is required.')
     .isString()
     .withMessage('Name must be string'),
-  check('tasks').isArray().withMessage('Tasks must be array')
+  check('tasks').isArray().withMessage('Tasks must be array').optional()
 ];
 
-exports.addAndRemoveTaskProjectValidator = [
+exports.addTaskProjectValidator = [
+  check('name')
+    .not()
+    .isEmpty()
+    .withMessage('Name of the task is required.')
+    .isString()
+    .withMessage('Name must be string')
+];
+
+exports.removeTaskProjectValidator = [
   check('taskId')
     .not()
     .isEmpty()
