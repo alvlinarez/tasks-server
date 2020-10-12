@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(
   cors({
-    origin: ['https://alg-tasks.herokuapp.com', 'http://localhost:3000'],
+    origin: ['http://alg-tasks.herokuapp.com', 'http://localhost:3000'],
     credentials: true
   })
 );
