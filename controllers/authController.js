@@ -36,6 +36,7 @@ exports.signIn = async (req, res) => {
       secure: config.env !== 'development'
     });
     return res.status(200).json({
+      token,
       user: {
         id,
         name,
